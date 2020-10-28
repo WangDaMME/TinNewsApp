@@ -41,7 +41,23 @@ public class MainActivity extends AppCompatActivity {
         NavigationUI.setupWithNavController(navView, navController);
         NavigationUI.setupActionBarWithNavController(this, navController);
 
-        NewsApi newsApi = RetrofitClient.newInstance(this).create(NewsApi.class);
+
+
+    }
+
+    @Override
+    public boolean onSupportNavigateUp()
+    {
+
+        return navController.navigateUp();
+    }
+
+
+
+}
+
+/*  *** This belongs to 'Model (data model)' part ---> move to 'Retrofit' (is for remote)
+NewsApi newsApi = RetrofitClient.newInstance(this).create(NewsApi.class);
         newsApi.getTopHeadlines("US").enqueue(new Callback<NewsResponse>() {
             @Override
             public void onResponse(Call<NewsResponse> call, Response<NewsResponse> response) {
@@ -61,16 +77,4 @@ public class MainActivity extends AppCompatActivity {
                 Log.d("getTopHeadlines",t.toString());// print error
             }
         });
-
-    }
-
-    @Override
-    public boolean onSupportNavigateUp()
-    {
-
-        return navController.navigateUp();
-    }
-
-
-
-}
+ */
