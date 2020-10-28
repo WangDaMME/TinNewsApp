@@ -17,7 +17,7 @@ public interface NewsApi {
     //https://newsapi.org/v2/top-headlines?country=us&apiKey=
 
     @GET("everything")
-    Call<NewsResponse> getEverything(@Query("pageSize") int pageSize);
+    Call<NewsResponse> getEverything(@Query("q") String query, @Query("pageSize") int pageSize);
     //https://newsapi.org/v2/everything?q=bitcoin&apiKey=
     //pageSize:The number of results to return per page. 20 is the default, 100 is the maximum.
 }
