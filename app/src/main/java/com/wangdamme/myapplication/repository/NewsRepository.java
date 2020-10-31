@@ -13,9 +13,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+// In Repository, SET LiveData
+// *** Repository Tier***
+// User retrofit to access from the remote end get data, return LivedData
+
 public class NewsRepository {
 
-    private final NewsApi newsApi;
+    private final NewsApi newsApi; // retrofit interface
 
     public NewsRepository(Context context)
     {
@@ -35,7 +39,7 @@ public class NewsRepository {
 
                 if(response.isSuccessful())
                 {
-                    topHeadlinesLiveData.setValue(response.body());
+                    topHeadlinesLiveData.setValue(response.body()); //
                 }
                 else
                 {
