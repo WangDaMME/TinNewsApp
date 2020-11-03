@@ -31,6 +31,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+
+    viewBinding
+    {
+        enabled=true;
+    }
 }
 
 dependencies {
@@ -56,5 +61,14 @@ dependencies {
     implementation 'androidx.lifecycle:lifecycle-livedata:2.2.0'
     implementation 'androidx.lifecycle:lifecycle-extensions:2.2.0'
 
+    // Sthetho: debugging tool, view network request & database content
+    implementation 'com.facebook.stetho:stetho:1.5.1'
+    implementation 'com.facebook.stetho:stetho-okhttp3:1.5.1'
+
+    // Picasso: Image Display: to load any given image URL in a single line.
+    implementation 'com.squareup.picasso:picasso:2.71828'
+
+    //CardStack View
+    implementation "com.yuyakaido.android:card-stack-view:2.3.4"
 
 }
