@@ -1,8 +1,15 @@
 package com.wangdamme.myapplication.model;
 
+import androidx.annotation.NonNull;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
 import java.util.Objects;
 
 // Pojo class for each Article Returns
+// Modify Article_class to save to ROOM db
+
+@Entity
 public class Article {
 
     public String author;
@@ -10,6 +17,9 @@ public class Article {
     public String description;
     public String publishedAt;
     public String title;
+
+    @NonNull
+    @PrimaryKey
     public String url;
     public String urlToImage;
     // public boolean favorite;
@@ -26,7 +36,7 @@ public class Article {
                 Objects.equals(description, article.description) &&
                 Objects.equals(publishedAt, article.publishedAt) &&
                 Objects.equals(title, article.title) &&
-                Objects.equals(url, article.url) &&
+                url.equals(article.url) &&
                 Objects.equals(urlToImage, article.urlToImage);
     }
 

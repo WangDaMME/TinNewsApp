@@ -1,10 +1,14 @@
 package com.wangdamme.myapplication.repository;
 
 import android.content.Context;
+import android.os.AsyncTask;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
+import com.wangdamme.myapplication.TinNewsApplication;
+import com.wangdamme.myapplication.database.TinNewsAppDatabase;
+import com.wangdamme.myapplication.model.Article;
 import com.wangdamme.myapplication.model.NewsResponse;
 import com.wangdamme.myapplication.network.NewsApi;
 import com.wangdamme.myapplication.network.RetrofitClient;
@@ -21,10 +25,14 @@ public class NewsRepository {
 
     private final NewsApi newsApi; // retrofit interface
 
+    //Add database access to NewsRepository
+    private final TinNewsAppDatabase database;
+
     public NewsRepository(Context context)
     {
         //NewsApi newsApi = RetrofitClient.newInstance(this).create(NewsApi.class);
         newsApi= RetrofitClient.newInstance(context).create(NewsApi.class);
+        database= ((TinNewsApplication) context.getApplicationContext()).getDatabase(); // cast the application context into TinNewsApplicaition
     }
 
     // Search HeadlINE API:    //https://newsapi.org/v2/top-headlines?country=us&apiKey=
@@ -56,8 +64,9 @@ public class NewsRepository {
         return topHeadlinesLiveData;
     }
 
-    // SearchNews get everything API:       //https://newsapi.org/v2/everything?q=bitcoin&apiKey=
 
+
+    // SearchNews get everything API:       //https://newsapi.org/v2/everything?q=bitcoin&apiKey=
     public LiveData<NewsResponse> searchNews(String query)
     {
         MutableLiveData<NewsResponse> everyThingLiveData = new MutableLiveData<>();
@@ -86,6 +95,53 @@ public class NewsRepository {
         return everyThingLiveData;
     }
 
+
+    // HomeView Model will call setFavoriteArticleInput(Article article)
+    public LiveData<Boolean> favoriteArticle(Article article)
+    {
+        MutableLiveData<Boolean>  resultLiveData = new MutableLiveData<>();
+        new FavoriteAsyncTask(database,resultLiveData).execute(article);  // execute returns immediately,  db operation runs in background & will notify the result thru {resultLiveData}
+
+        return  resultLiveData;
+    }
+
+    //*********** AyncTask ************//
+
+
+    // Create AsyncTask to get Favorite to dispatch querry to a backround thread
+    private static class FavoriteAsyncTask extends AsyncTask<Article,Void,Boolean> // Generic Type Input Param,Progress,Result
+    {
+        private final TinNewsAppDatabase database;
+        private final MutableLiveData<Boolean> liveData;
+
+        private FavoriteAsyncTask(TinNewsAppDatabase database, MutableLiveData<Boolean> liveData)
+        {
+            this.database=database;
+            this.liveData=liveData;
+        }
+
+        // evething thing in doInBackground will be executed on a separate background thread.
+        @Override
+        protected Boolean doInBackground(Article... articles) //Params
+        {
+
+            Article article = articles[0];
+            try {
+                database.articleDao().saveArticle(article);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        //After done doinBackground, onPostExecute will be executed back in MAIN Thread
+        @Override
+        protected void onPostExecute(Boolean success) {
+            liveData.setValue(success);
+        }
+    }
 
 
 

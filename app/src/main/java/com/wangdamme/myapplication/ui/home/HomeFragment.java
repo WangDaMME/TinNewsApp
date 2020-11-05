@@ -32,7 +32,7 @@ import java.util.List;
 // Now we let the HomeFragment implement the CartStackListener interface:
 public class HomeFragment extends Fragment implements CardStackListener {
 
-    //Use ViewModel in the Fragments
+    //Use ViewModel in grad'lethe Fragments
     private HomeViewModel viewModel;
     private FragmentHomeBinding binding;  // generate by //res/layout/fragment_home
 
@@ -105,6 +105,9 @@ public class HomeFragment extends Fragment implements CardStackListener {
         else if (direction==Direction.Right)
         {
             Log.d("CardStackView", "Liked "+layoutManager.getTopPosition());
+            //wire up the ui swipe interaction
+            Article article = articles.get(layoutManager.getTopPosition()-1); //start form 1
+            viewModel.setFavoriteArticleInput(article);
 
         }
     }
