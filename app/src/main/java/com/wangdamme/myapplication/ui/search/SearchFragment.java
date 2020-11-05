@@ -49,8 +49,6 @@ public class SearchFragment extends Fragment {
         binding.newsResultsRecyclerView.setLayoutManager(gridLayoutManager);
         binding.newsResultsRecyclerView.setAdapter(newsAdapter);
 
-
-
         NewsRepository repository = new NewsRepository(getContext());
         viewModel = new ViewModelProvider(this, new NewsViewModelFactory(repository)).get(SearchViewModel.class);
 

@@ -13,6 +13,8 @@ import com.wangdamme.myapplication.model.NewsResponse;
 import com.wangdamme.myapplication.network.NewsApi;
 import com.wangdamme.myapplication.network.RetrofitClient;
 
+import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -143,6 +145,16 @@ public class NewsRepository {
         }
     }
 
+    // for SaveFragment
+    public LiveData<List<Article>> getAllSavedArticles()
+    {
+        return database.articleDao().getAllArticles();// return all database article info
+    }
+
+    public void deleteSavedArticle(Article article)
+    {
+        AsyncTask.execute( ()-> database.articleDao().deleteArticle(article)); // you dont care when it actually deletes
+    }
 
 
 }
