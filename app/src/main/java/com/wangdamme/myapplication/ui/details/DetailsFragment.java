@@ -10,8 +10,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.squareup.picasso.Picasso;
 import com.wangdamme.myapplication.R;
 import com.wangdamme.myapplication.databinding.FragmentDetailsBinding;
+import com.wangdamme.myapplication.model.Article;
 
 public class DetailsFragment extends Fragment {
 
@@ -31,5 +33,17 @@ public class DetailsFragment extends Fragment {
         return binding.getRoot();
     }
 
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
 
+        Article article = DetailsFragmentArgs.fromBundle(getArguments()).getArticle();
+
+        binding.detailsTilteTextView.setText(article.title);
+        binding.detailsAuthorTextView.setText(article.author);
+        binding.detailsDateTextView.setText(article.publishedAt);
+        binding.detailsDescriptionTextView.setText(article.description);
+        binding.detailsContentTextView.setText(article.content);
+        Picasso.get().load(article.urlToImage).into(binding.detailsImageView);
+    }
 }

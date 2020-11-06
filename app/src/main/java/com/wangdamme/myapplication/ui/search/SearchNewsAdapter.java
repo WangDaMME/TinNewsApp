@@ -51,6 +51,10 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.Se
         holder.itemTitleTextView.setText(article.title);
         Picasso.get().load(article.urlToImage).into(holder.itemImageView);
 
+        holder.itemView.setOnClickListener( v -> {
+            itemCallback.onOpenDetails(article);
+        });
+
     }
 
 
@@ -80,6 +84,19 @@ public class SearchNewsAdapter extends RecyclerView.Adapter<SearchNewsAdapter.Se
             itemTitleTextView=binding.searchItemTitle;
         }
 
+    }
+
+
+    interface ItemCallback
+    {
+        void onOpenDetails(Article article); // for opening a new fragment for article details
+    }
+
+    private ItemCallback itemCallback;
+
+    public void setItemCallback(ItemCallback itemCallback)
+    {
+        this.itemCallback=itemCallback;
     }
 
 }

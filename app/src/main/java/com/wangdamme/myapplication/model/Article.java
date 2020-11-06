@@ -4,13 +4,17 @@ import androidx.annotation.NonNull;
 import androidx.room.Entity;
 import androidx.room.PrimaryKey;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 // Pojo class for each Article Returns
 // Modify Article_class to save to ROOM db
 
+// Article implments Serializble for Safe Arg pass from fragment to fragment
+
+
 @Entity
-public class Article {
+public class Article implements Serializable {
 
     public String author;
     public String content;

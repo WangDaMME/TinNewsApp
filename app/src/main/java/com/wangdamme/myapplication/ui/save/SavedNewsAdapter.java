@@ -50,10 +50,7 @@ public class SavedNewsAdapter extends RecyclerView.Adapter<SavedNewsAdapter.Save
 
         // set up Onclick Listener for image Icon
         holder.favoriteIcon.setOnClickListener(
-                v->{
-                    itemCallback.onRemoveFavorite(article);
-                }
-        );
+                v-> itemCallback.onRemoveFavorite(article));
 
         holder.itemView.setOnClickListener(
                 v -> {
